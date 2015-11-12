@@ -10,7 +10,6 @@ package gamesstore;
  * @author s2it_ggomes
  */
 public abstract class Product {
-    protected int idProduct;
     protected String name;
     protected String manufacturer;
     protected float price;

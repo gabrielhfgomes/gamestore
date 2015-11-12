@@ -10,5 +10,8 @@ package gamesstore;
  * @author s2it_ggomes
  */
 public class Seller extends Employee {
-        private float comission;
+    private float comission;
+    
+    
+    
 }

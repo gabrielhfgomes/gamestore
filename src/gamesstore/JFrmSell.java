@@ -37,7 +37,13 @@ public final class JFrmSell extends javax.swing.JFrame {
         this.configTableColumns();
         DatabaseUtilit.Conectar();
         this.setComboGame();
+        this.setComboCategory();
         this.setComboClient();
+    }
+    
+    public void setComboCategory() {
+        jComboCategory.addItem("Chips");
+        jComboCategory.addItem("Games");
     }
     
     public void saveSell() {
@@ -55,6 +61,7 @@ public final class JFrmSell extends javax.swing.JFrame {
                 
                 game.setName((String) model.getValueAt(linhaJTable, 0));
                 game.setIdGame(this.gamedao.searchIdGame(game));
+                
                 System.out.println(game.getName());
                 System.out.println(game.getIdGame());
                 
@@ -96,18 +103,31 @@ public final class JFrmSell extends javax.swing.JFrame {
             jComboGames.addItem(games);
         }
     }
+    
+    
+        List<Game> listGame = new ArrayList<>();
+        listGame = this.gamedao.listAllGames();
 
-    public void setComboClient() {
-        ClientDAO clientdao = new ClientDAO();
-        List<Client> listClient = new ArrayList<>();
-        listClient = clientdao.listAllClient();
-
-        Iterator<Client> it = listClient.iterator();
+        Iterator<Game> it = listGame.iterator();
 
         while (it.hasNext()) {
-            Client c = it.next();
-            String clients = c.getName();
-            jComboClient.addItem(clients);
+            Game g = it.next();
+            String games = g.getName();
+            jComboGames.addItem(games);
+        }
+    }
+
+    public void setComboChips() {
+        ChipsDAO chipsdao = new ChipsDAO();
+        List<Chips> listChips = new ArrayList<>();
+        listChips = chipsdao.listAllChips();
+
+        Iterator<Chips> it = listChips.iterator();
+
+        while (it.hasNext()) {
+            Chips chi = it.next();
+            String chips = chi.getName();
+            jComboClient.addItem(chips);
         }
     }
 
@@ -122,7 +142,7 @@ public final class JFrmSell extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jComboGames = new javax.swing.JComboBox<String>();
-        jComboBox2 = new javax.swing.JComboBox<String>();
+        jComboCategory = new javax.swing.JComboBox<String>();
         jComboClient = new javax.swing.JComboBox<String>();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -130,6 +150,7 @@ public final class JFrmSell extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButtonCaregory = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSell = new javax.swing.JTable();
@@ -169,6 +190,13 @@ public final class JFrmSell extends javax.swing.JFrame {
             }
         });
 
+        jButtonCaregory.setText("Category");
+        jButtonCaregory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCaregoryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -187,10 +215,11 @@ public final class JFrmSell extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(143, 143, 143)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCaregory, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
@@ -199,30 +228,32 @@ public final class JFrmSell extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboGames, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addContainerGap(126, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonCaregory)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jComboCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboGames, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addContainerGap())
         );
 
         jComboGames.getAccessibleContext().setAccessibleName("cmbProduct");
-        jComboBox2.getAccessibleContext().setAccessibleName("cmbCategory");
+        jComboCategory.getAccessibleContext().setAccessibleName("cmbCategory");
         jComboClient.getAccessibleContext().setAccessibleName("cmbClient");
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 30)); // NOI18N
@@ -284,11 +315,21 @@ public final class JFrmSell extends javax.swing.JFrame {
         this.saveSell();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButtonCaregoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCaregoryActionPerformed
+        if(this.jComboCategory.getSelectedItem() == "Games") {
+            this.setComboGame();
+        } else {
+            this.setComboChips();
+        }
+        
+    }//GEN-LAST:event_jButtonCaregoryActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton jButtonCaregory;
+    private javax.swing.JComboBox<String> jComboCategory;
     private javax.swing.JComboBox<String> jComboClient;
     private javax.swing.JComboBox<String> jComboGames;
     private javax.swing.JLabel jLabel1;

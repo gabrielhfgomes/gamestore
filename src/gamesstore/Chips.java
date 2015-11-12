@@ -12,4 +12,21 @@ package gamesstore;
 public class Chips extends Product {
     private float weight;
     private String type;
+    
+    @Override
+    public String getName() {
+        return this.name;
+    }
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
+    public String getManufacturer() {
+        return this.manufacturer;
+    }
+    @Override
+    public void setManufacturer(String manufacturer){
+        this.manufacturer = manufacturer;
+    }
 }

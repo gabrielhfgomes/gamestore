@@ -36,8 +36,14 @@ public class GameDAO {
         String sql = "select name from game";
         return sql;
     }
-     private String SQLSearchIdGame() {
+    
+    private String SQLSearchIdGame() {
         String sql = "select idGame from game where name = ?";
+        return sql;
+    }
+    
+    private String SQLDiscountStock() {
+        String sql = "update game set stock = ?";
         return sql;
     }
     
@@ -54,6 +60,10 @@ public class GameDAO {
             System.err.println("Erro, query busca de ID " + ex);
         }
         return 0;
+    }
+    
+    public void discountStock(Game game) {
+        
     }
 
     public void insertGame(Game game) {
