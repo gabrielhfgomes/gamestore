@@ -22,7 +22,7 @@ public final class JFrmSell extends javax.swing.JFrame {
     private DefaultTableModel tableModel;
     private int linhaJTable;
     GameDAO gamedao;
-    SellDAO selldao;
+    SellDAO selldao;    
     ClientDAO clientDAO;
     
     /**
@@ -51,6 +51,7 @@ public final class JFrmSell extends javax.swing.JFrame {
                 
                 client.setName((String) jComboClient.getSelectedItem());
                 client.setIdClient(this.clientDAO.searchIdClient(client));
+                System.out.println(client.getIdClient());
                 
                 game.setName((String) model.getValueAt(linhaJTable, 0));
                 game.setIdGame(this.gamedao.searchIdGame(game));

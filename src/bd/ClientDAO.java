@@ -31,7 +31,10 @@ public class ClientDAO {
             DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLSearchIdClient()));
             DatabaseUtilit.getPs().setString(1, client.getName());
             ResultSet rs = DatabaseUtilit.getPs().executeQuery();
-            return rs.getInt(1);
+            if(rs != null && rs.next()){
+                return rs.getInt("idClient");
+            }
+            System.out.println(rs.getInt(1));
         } catch(Exception ex) {
             System.err.println("Erro, query busca de ID " + ex);
         }

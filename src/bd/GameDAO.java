@@ -46,7 +46,10 @@ public class GameDAO {
             DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLSearchIdGame()));
             DatabaseUtilit.getPs().setString(1, game.getName());
             ResultSet rs = DatabaseUtilit.getPs().executeQuery();
-            return rs.getInt(1);
+            if(rs != null && rs.next()){  
+               return rs.getInt("idGame");  
+            } 
+            
         } catch(Exception ex) {
             System.err.println("Erro, query busca de ID " + ex);
         }
