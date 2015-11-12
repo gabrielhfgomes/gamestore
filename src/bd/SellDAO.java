@@ -16,15 +16,15 @@ import java.sql.SQLException;
 public class SellDAO {
     
     private String SQLInsertSell() {
-        String sql = "insert into sell( nameGame, nameClient) values( ? ,?)";
+        String sql = "insert into sell( idGame, idClient) values( ? ,?)";
         return sql;
     }
     
     public void insertSell(Sell sell) {
         try {
             DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLInsertSell()));
-            DatabaseUtilit.getPs().setString(1, sell.getNameGame());
-            DatabaseUtilit.getPs().setString(2, sell.getNameClient());
+            DatabaseUtilit.getPs().setInt(1, sell.getIdClient());
+            DatabaseUtilit.getPs().setInt(2, sell.getIdGame());
             DatabaseUtilit.getPs().execute();
         } catch (SQLException ex) {
             System.out.println("Dados não inseridos, Erro: " + ex);

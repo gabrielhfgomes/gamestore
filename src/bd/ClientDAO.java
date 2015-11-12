@@ -20,6 +20,23 @@ public class ClientDAO {
         String sql = "select name from client";
         return sql;
     }
+    
+    private String SQLSearchIdClient() {
+        String sql = "select idClient from client where name = ?";
+        return sql;
+    }
+    
+    public int searchIdClient(Client client) {
+        try {
+            DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLSearchIdClient()));
+            DatabaseUtilit.getPs().setString(1, client.getName());
+            ResultSet rs = DatabaseUtilit.getPs().executeQuery();
+            return rs.getInt(1);
+        } catch(Exception ex) {
+            System.err.println("Erro, query busca de ID " + ex);
+        }
+        return 0;
+    }
 
     public List<Client> listAllClient() {
         List<Client> listClient = new ArrayList<>();

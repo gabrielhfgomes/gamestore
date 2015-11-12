@@ -23,6 +23,7 @@ public final class JFrmSell extends javax.swing.JFrame {
     private int linhaJTable;
     GameDAO gamedao;
     SellDAO selldao;
+    ClientDAO clientDAO;
     
     /**
      * Creates new form JFrmSell
@@ -31,6 +32,7 @@ public final class JFrmSell extends javax.swing.JFrame {
         initComponents();
         this.gamedao = new GameDAO();
         this.selldao = new SellDAO();
+        this.clientDAO = new ClientDAO();
         this.linhaJTable = -1;
         this.configTableColumns();
         DatabaseUtilit.Conectar();
@@ -46,9 +48,14 @@ public final class JFrmSell extends javax.swing.JFrame {
             if(linhaJTable != -1) {
                 Game game = new Game();
                 Client client = new Client();
+                
                 client.setName((String) jComboClient.getSelectedItem());
-                game.setName((String) model.getValueAt(linhaJTable, 0)); 
+                client.setIdClient(this.clientDAO.searchIdClient(client));
+                
+                game.setName((String) model.getValueAt(linhaJTable, 0));
+                game.setIdGame(this.gamedao.searchIdGame(game));
                 System.out.println(game.getName());
+                System.out.println(game.getIdGame());
                 
                 Sell sell = new Sell(game, client);
                 this.selldao.insertSell(sell);

@@ -10,7 +10,7 @@ package gamesstore;
  * @author gabri
  */
 public class Client implements RG, CPF {
-
+    private int idClient;
     private String name;
     private String RG;
     private String CPF;
@@ -73,5 +73,19 @@ public class Client implements RG, CPF {
      */
     public void setCPF(String CPF) {
         this.CPF = CPF;
+    }
+
+    /**
+     * @return the idClient
+     */
+    public int getIdClient() {
+        return idClient;
+    }
+
+    /**
+     * @param idClient the idClient to set
+     */
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
     }
 }

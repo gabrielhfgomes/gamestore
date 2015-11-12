@@ -5,6 +5,7 @@
  */
 package bd;
 
+import gamesstore.Client;
 import java.sql.*;
 import java.util.*;
 import gamesstore.Game;
@@ -34,6 +35,22 @@ public class GameDAO {
     private String SQLListGame() {
         String sql = "select name from game";
         return sql;
+    }
+     private String SQLSearchIdGame() {
+        String sql = "select idGame from game where name = ?";
+        return sql;
+    }
+    
+    public int searchIdGame(Game game) {
+        try {
+            DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLSearchIdGame()));
+            DatabaseUtilit.getPs().setString(1, game.getName());
+            ResultSet rs = DatabaseUtilit.getPs().executeQuery();
+            return rs.getInt(1);
+        } catch(Exception ex) {
+            System.err.println("Erro, query busca de ID " + ex);
+        }
+        return 0;
     }
 
     public void insertGame(Game game) {

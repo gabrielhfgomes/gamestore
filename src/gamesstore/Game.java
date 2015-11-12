@@ -10,17 +10,9 @@ package gamesstore;
  * @author s2it_ggomes
  */
 public class Game extends Product {
+    private int idGame;
     private int avaible_for_sell;
     private String year_release; 
-    
-//    public Game(String name, String manufacturer, float price, int stock, int avaible_for_sell, String year_release) {
-//        this.name = name;
-//        this.manufacturer = manufacturer;
-//        this.price = price;
-//        this.stock = stock;
-//        this.avaible_for_sell = avaible_for_sell;
-//        this.year_release = year_release;
-//    }
     
     @Override
     public String getName() {
@@ -47,13 +39,6 @@ public class Game extends Product {
     }
 
     /**
-     * @return the category
-     */
-   
-    
-
-
-    /**
      * @return the year_release
      */
     public String getYear_release() {
@@ -75,5 +60,19 @@ public class Game extends Product {
     @Override
     public void setManufacturer(String manufacturer) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the idGame
+     */
+    public int getIdGame() {
+        return idGame;
+    }
+
+    /**
+     * @param idGame the idGame to set
+     */
+    public void setIdGame(int idGame) {
+        this.idGame = idGame;
     }
 }

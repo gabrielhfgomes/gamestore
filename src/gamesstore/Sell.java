@@ -10,41 +10,41 @@ package gamesstore;
  * @author gabri
  */
 public class Sell {
-    private String nameGame;
-    private String nameClient;
+    private int idGame;
+    private int idClient;
     
     
     public Sell(Game game, Client client) {
-        this.nameGame = game.getName();
-        this.nameClient = client.getName();
+        this.idGame = game.getIdGame();
+        this.idClient = client.getIdClient();
     }
 
     /**
-     * @return the nameGame
+     * @return the idGame
      */
-    public String getNameGame() {
-        return nameGame;
+    public int getIdGame() {
+        return idGame;
     }
 
     /**
-     * @param nameGame the nameGame to set
+     * @param idGame the idGame to set
      */
-    public void setNameGame(String nameGame) {
-        this.nameGame = nameGame;
+    public void setIdGame(int idGame) {
+        this.idGame = idGame;
     }
 
     /**
-     * @return the nameClient
+     * @return the idClient
      */
-    public String getNameClient() {
-        return nameClient;
+    public int getIdClient() {
+        return idClient;
     }
 
     /**
-     * @param nameClient the nameClient to set
+     * @param idClient the idClient to set
      */
-    public void setNameClient(String nameClient) {
-        this.nameClient = nameClient;
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
     }
     
 }
