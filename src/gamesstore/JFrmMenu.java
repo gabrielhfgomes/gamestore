@@ -5,6 +5,8 @@
  */
 package gamesstore;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author s2it_ggomes
@@ -36,12 +38,12 @@ public class JFrmMenu extends javax.swing.JFrame {
         jMenuOptionSell.setText("Sell");
         jMenuOptionSell.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenuOptionSell.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenuOptionSellMenuSelected(evt);
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                jMenuOptionSellMenuSelected(evt);
             }
         });
         jMenuOptionSell.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -60,11 +62,11 @@ public class JFrmMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 752, Short.MAX_VALUE)
+            .addGap(0, 937, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 514, Short.MAX_VALUE)
+            .addGap(0, 618, Short.MAX_VALUE)
         );
 
         pack();
@@ -77,6 +79,7 @@ public class JFrmMenu extends javax.swing.JFrame {
 
     private void jMenuOptionSellMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuOptionSellMenuSelected
         JFrmSell sell = new JFrmSell();
+        sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         sell.setVisible(true);
     }//GEN-LAST:event_jMenuOptionSellMenuSelected
 

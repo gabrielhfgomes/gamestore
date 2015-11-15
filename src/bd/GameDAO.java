@@ -32,7 +32,7 @@ public class GameDAO {
         return sql;
     }
 
-    private String SQLListGame() {
+    private String SQLListAllGames() {
         String sql = "select name from game";
         return sql;
     }
@@ -57,7 +57,7 @@ public class GameDAO {
             } 
             
         } catch(Exception ex) {
-            System.err.println("Erro, query busca de ID " + ex);
+            System.err.println("Erro, query busca de ID " + ex);    
         }
         return 0;
     }
@@ -95,7 +95,7 @@ public class GameDAO {
         List<Game> listGame = new ArrayList<>();
 
         try {
-            DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLListGame()));
+            DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLListAllGames()));
             ResultSet rs = DatabaseUtilit.getPs().executeQuery();
 
             if (rs != null) {
