@@ -5,7 +5,9 @@
  */
 package gamesstore;
 
+import bd.DatabaseUtilit;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +20,12 @@ public class JFrmMenu extends javax.swing.JFrame {
      */
     public JFrmMenu() {
         initComponents();
+        setExtendedState(MAXIMIZED_BOTH);
+        try {
+            DatabaseUtilit.Conectar();
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "não foi possivel conectar...");
+        }
     }
 
     /**
@@ -31,21 +39,18 @@ public class JFrmMenu extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuOptionSell = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuOptionClient = new javax.swing.JMenu();
+        jMenuOptionSeller = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jMenuOptionSell.setText("Sell");
         jMenuOptionSell.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jMenuOptionSell.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenuOptionSellMenuSelected(evt);
-            }
-        });
         jMenuOptionSell.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuOptionSellMouseClicked(evt);
@@ -53,8 +58,21 @@ public class JFrmMenu extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuOptionSell);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuOptionClient.setText("Client");
+        jMenuOptionClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuOptionClientMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuOptionClient);
+
+        jMenuOptionSeller.setText("Seller");
+        jMenuOptionSeller.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuOptionSellerMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuOptionSeller);
 
         setJMenuBar(jMenuBar1);
 
@@ -74,14 +92,23 @@ public class JFrmMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuOptionSellMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuOptionSellMouseClicked
-
+        JFrmSell sell = new JFrmSell();
+        sell.setVisible(true);
     }//GEN-LAST:event_jMenuOptionSellMouseClicked
 
-    private void jMenuOptionSellMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuOptionSellMenuSelected
-        JFrmSell sell = new JFrmSell();
-        sell.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        sell.setVisible(true);
-    }//GEN-LAST:event_jMenuOptionSellMenuSelected
+    private void jMenuOptionClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuOptionClientMouseClicked
+        JFrmClient client = new JFrmClient();
+        client.setVisible(true);
+    }//GEN-LAST:event_jMenuOptionClientMouseClicked
+
+    private void jMenuOptionSellerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuOptionSellerMouseClicked
+        JFrmSeller seller = new JFrmSeller();
+        seller.setVisible(true);
+    }//GEN-LAST:event_jMenuOptionSellerMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       DatabaseUtilit.Desconectar();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -113,13 +140,15 @@ public class JFrmMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                new JFrmMenu().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuOptionClient;
     private javax.swing.JMenu jMenuOptionSell;
+    private javax.swing.JMenu jMenuOptionSeller;
     // End of variables declaration//GEN-END:variables
 }

@@ -14,11 +14,11 @@ public class Client implements RG, CPF {
     private String name;
     private String RG;
     private String CPF;
-
+    
     @Override
     public int validateRG() {
         int numberChar = this.getRG().length();
-        if (numberChar == 10) {
+        if (numberChar == 9) {
             return 1;
         }
         return 0;
@@ -27,7 +27,7 @@ public class Client implements RG, CPF {
     @Override
     public int validateCPF() {
         int numberChar = this.getCPF().length();
-        if (numberChar == 10) {
+        if (numberChar == 11) {
             return 1;
         }
         return 0;

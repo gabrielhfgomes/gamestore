@@ -6,7 +6,7 @@
 package bd;
 
 import java.sql.*;
-import gamesstore.Client;
+import gamesstore.Seller;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,37 +14,32 @@ import java.util.List;
  *
  * @author s2it_ggomes
  */
-public class ClientDAO {
+public class SellertDAO {
 
-    private String SQLListClient() {
-        String sql = "select name, rg, cpf from client";
+    private String SQLListSeller() {
+        String sql = "select name from client";
         return sql;
     }
     
-    private String SQLInsertClient() {
-        String sql = "insert into client(name, rg, cpf) values( ?, ?, ? )";
+    private String SQLInsertSeller() {
+        String sql = "insert into seller(name, rg, cpf) values( ?, ?, ? )";
         return sql;
     }
     
-    private String SQLUpdateClient() {
+    private String SQLUpdateSeller() {
         String sql = "update client set name = ?, rg = ?, cpf = ? where idClient = ?";
         return sql;
     }
     
-    private String SQLSearchIdClient() {
-        String sql = "select idClient from client where name = ?";
+    private String SQLSearchIdSeller() {
+        String sql = "select idSeller from seller where name = ?";
         return sql;
     }
     
-    private String SQLDeleteClient() {
-        String sql = "delete from client where cpf = ?";
-        return sql;
-    }
-    
-    public void insertClient(Client cli) {
+    public void insertClient(Seller seller) {
         try {
-            DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLInsertClient()));
-            DatabaseUtilit.getPs().setString(1, cli.getName());
+            DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLInsertSeller()));
+            DatabaseUtilit.getPs().setString(1, seller.getName());
             DatabaseUtilit.getPs().setString(2, cli.getRG());
             DatabaseUtilit.getPs().setString(3, cli.getCPF());
             DatabaseUtilit.getPs().execute();
@@ -81,8 +76,6 @@ public class ClientDAO {
                 while (rs.next()) {
                     Client tempClient = new Client();
                     tempClient.setName(rs.getString(1));
-                    tempClient.setRG(rs.getString(2));
-                    tempClient.setCPF(rs.getString(3));
                     listClient.add(tempClient);
                 }
             }
@@ -91,8 +84,6 @@ public class ClientDAO {
         }
         return listClient;
     }
-    
-   
 
     public void updateClient(Client cli) {
         try {
@@ -107,17 +98,6 @@ public class ClientDAO {
             System.out.println("Cliente foi atualizado!");
         } catch(Exception ex) {
             System.err.println("Cliente não foi atualizado \n Erro: " + ex);
-        }
-    }
-    
-    public void deleteClient(String CPF) {
-        try {
-            DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLDeleteClient()));
-            DatabaseUtilit.getPs().setString(1, CPF);
-            DatabaseUtilit.getPs().execute();
-            System.out.println("Cliente excluido com sucesso!");
-        } catch(Exception ex) {
-            System.err.println("Erro: "+ ex + "ao excuir cliente!");
         }
     }
 

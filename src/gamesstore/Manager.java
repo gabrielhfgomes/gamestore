@@ -11,5 +11,4 @@ package gamesstore;
  */
 public class Manager extends Employee {
     private int numberOfWorkersThatManages;
-    
 }
