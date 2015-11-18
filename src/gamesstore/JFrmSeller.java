@@ -7,21 +7,23 @@ package gamesstore;
 
 import bd.DatabaseUtilit;
 import javax.swing.JOptionPane;
+import bd.SellerDAO;
 /**
  *
  * @author gabri
  */
 public class JFrmSeller extends javax.swing.JFrame {
+    private SellerDAO sellerdao;
     
-//    private SellerDAO sellerdao;
-//    
-//     
-//    public JFrmSeller() {
-//        initComponents();
-//        this.setLocationRelativeTo(null);
-//        this.sellerdao = new SellerDAO();
-//        DatabaseUtilit.Conectar();
-//    }
+     
+    public JFrmSeller() {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.sellerdao = new SellerDAO();
+        setDefaultCloseOperation(JFrmClient.HIDE_ON_CLOSE);
+        configTableModel();
+        configTableColumns();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,7 +41,12 @@ public class JFrmSeller extends javax.swing.JFrame {
         jTextFieldComission = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButtonSaveClient = new javax.swing.JButton();
+        jButtonEdit = new javax.swing.JButton();
+        jButtonSaveSeller = new javax.swing.JButton();
+        jButtonDelete = new javax.swing.JButton();
+        jButtonCancel = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableClient = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -54,15 +61,36 @@ public class JFrmSeller extends javax.swing.JFrame {
 
         jLabel3.setText("Comission");
 
-        jButtonSaveClient.setText("Save");
-        jButtonSaveClient.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButtonEdit.setText("Edit");
+        jButtonEdit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonSaveClientMouseClicked(evt);
+                jButtonEditMouseClicked(evt);
             }
         });
-        jButtonSaveClient.addActionListener(new java.awt.event.ActionListener() {
+
+        jButtonSaveSeller.setText("Save");
+        jButtonSaveSeller.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonSaveSellerMouseClicked(evt);
+            }
+        });
+        jButtonSaveSeller.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSaveClientActionPerformed(evt);
+                jButtonSaveSellerActionPerformed(evt);
+            }
+        });
+
+        jButtonDelete.setText("Delete");
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
+
+        jButtonCancel.setText("Cancel");
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelActionPerformed(evt);
             }
         });
 
@@ -71,12 +99,17 @@ public class JFrmSeller extends javax.swing.JFrame {
         jPanelClientLayout.setHorizontalGroup(
             jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelClientLayout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
-                .addGroup(jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelClientLayout.createSequentialGroup()
-                        .addComponent(jButtonSaveClient, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelClientLayout.createSequentialGroup()
+                .addContainerGap(52, Short.MAX_VALUE)
+                .addGroup(jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelClientLayout.createSequentialGroup()
+                        .addComponent(jButtonSaveSeller, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelClientLayout.createSequentialGroup()
                         .addGroup(jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -86,8 +119,8 @@ public class JFrmSeller extends javax.swing.JFrame {
                         .addGroup(jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldComission, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(84, 84, 84))))
+                            .addComponent(jTextFieldComission, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(84, 84, 84))
         );
         jPanelClientLayout.setVerticalGroup(
             jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,10 +137,16 @@ public class JFrmSeller extends javax.swing.JFrame {
                 .addGroup(jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldComission, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                .addComponent(jButtonSaveClient)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addGroup(jPanelClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSaveSeller)
+                    .addComponent(jButtonEdit)
+                    .addComponent(jButtonCancel)
+                    .addComponent(jButtonDelete))
+                .addGap(20, 20, 20))
         );
+
+        jScrollPane2.setViewportView(jTableClient);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,7 +154,9 @@ public class JFrmSeller extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -123,53 +164,82 @@ public class JFrmSeller extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonSaveClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSaveClientMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonSaveClientMouseClicked
-
-    private void jButtonSaveClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveClientActionPerformed
-        String name = jTextFieldName.getText();
-        String salary = jTextFieldSalary.getText();
-        String comission = jTextFieldComission.getText();
-        
-        Seller seller = new Seller();
-//        seller.setName(name);
-//        seller.setIdClient(this.sellerdao.searchIdSeller());
-//        System.out.println(seller.getIdSeller());
-//       
-        
-//        if(cli.getIdClient() == 0) {
-//            clientdao.insertClient(cli);
-//            JOptionPane.showMessageDialog(null, "Vendedor cadastrado com sucesso!");
-//        } else {
-//            clientdao.updateClient(cli);
-//            JOptionPane.showMessageDialog(null, "Vendedor atualizado com sucesso!");
-//        }   
-//        
-//        if(name.isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Nome deve ser diferente de vazio!");
-//        }
-//
-//        if(cli.validateCPF() == 0) {
-//            JOptionPane.showMessageDialog(null, "CPF deve conter 11 caracteres!");
-//        }
-//        if(cli.validateRG() == 0) {
-//            JOptionPane.showMessageDialog(null, "RG deve conter 9 caracteres!");
-//        }
-//        
-        
-        
-    }//GEN-LAST:event_jButtonSaveClientActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         DatabaseUtilit.Desconectar();
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButtonSaveSellerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSaveSellerMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonSaveSellerMouseClicked
+
+    private void jButtonSaveSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveSellerActionPerformed
+        String name = jTextFieldName.getText();
+        String rg = jTextFieldRG.getText();
+        String cpf = jTextFieldCPF.getText();
+
+        Client cli = new Client();
+        cli.setName(name);
+        cli.setCPF(cpf);
+        cli.setIdClient(this.clientdao.searchIdClient(cli.getCPF()));
+        cli.setRG(rg);
+        System.out.println(cli.getIdClient());
+
+        if(cli.validateCPF() != 0 && cli.validateRG() != 0 && !name.isEmpty()) {
+            //JOptionPane.showMessageDialog(null, "ID client = "+ cli.getIdClient());
+            if(cli.getIdClient() == 0) {
+                clientdao.insertClient(cli);
+            } else {
+                clientdao.updateClient(cli);
+            }
+            configTableModel();
+        } else {
+            if(name.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nome deve ser diferente de vazio!");
+            }
+
+            if(cli.validateCPF() == 0) {
+                JOptionPane.showMessageDialog(null, "CPF deve conter 11 caracteres!");
+            }
+            if(cli.validateRG() == 0) {
+                JOptionPane.showMessageDialog(null, "RG deve conter 9 caracteres!");
+            }
+        }
+        jTableClient.setEnabled(true);
+        jButtonDelete.setEnabled(true);
+        jTextFieldRG.setEnabled(true);
+        jTextFieldCPF.setEnabled(true);
+        cleanFields();
+    }//GEN-LAST:event_jButtonSaveSellerActionPerformed
+
+    private void jButtonEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEditMouseClicked
+        jTextFieldName.setEnabled(true);
+        jTableClient.setEnabled(false);
+        jButtonDelete.setEnabled(false);
+    }//GEN-LAST:event_jButtonEditMouseClicked
+
+    private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
+        jTextFieldName.setEnabled(true);
+        jTextFieldRG.setEnabled(true);
+        jTextFieldCPF.setEnabled(true);
+        cleanFields();
+    }//GEN-LAST:event_jButtonCancelActionPerformed
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+        String CPF = jTextFieldCPF.getText();
+
+        clientdao.deleteClient(CPF);
+        configTableModel();
+        configTableColumns();
+        cleanFields();
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,11 +278,16 @@ public class JFrmSeller extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonSaveClient;
+    private javax.swing.JButton jButtonCancel;
+    private javax.swing.JButton jButtonDelete;
+    private javax.swing.JButton jButtonEdit;
+    private javax.swing.JButton jButtonSaveSeller;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanelClient;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableClient;
     private javax.swing.JTextField jTextFieldComission;
     private javax.swing.JTextField jTextFieldName;
     private javax.swing.JTextField jTextFieldSalary;

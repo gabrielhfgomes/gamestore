@@ -28,6 +28,7 @@ public final class JFrmSell extends javax.swing.JFrame {
     private ClientDAO clientDAO;
     private SellDAO sellDAO;
     private ChipsDAO chipsDAO;
+    private TableModel model;
     
     /**
      * Creates new form JFrmSell
@@ -44,6 +45,7 @@ public final class JFrmSell extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrmClient.HIDE_ON_CLOSE);
         this.setComboCategory();
         this.setComboClient();
+        model = (TableModel) jTableSell.getModel();
     }
     
     public void setComboCategory() {
@@ -52,7 +54,6 @@ public final class JFrmSell extends javax.swing.JFrame {
     }
     
     public void saveSell() {
-        TableModel model = (TableModel) jTableSell.getModel();
         String valor1 = (String) model.getValueAt(linhaJTable, 0);
         
         int lastIdSell = this.sellDAO.searchLastIdSell();
@@ -97,10 +98,12 @@ public final class JFrmSell extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Venda efetuada com sucesso!");
         
         this.clearTable();
-        
     }
     
-    
+    public void clearTable() {
+        DefaultTableModel dtm = (DefaultTableModel) jTableSell.getModel();
+        dtm.setRowCount(0);
+    }
     
     public void configTableColumns() {
         this.tableModel = (DefaultTableModel) jTableSell.getModel();
@@ -174,7 +177,6 @@ public final class JFrmSell extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButtonExit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -207,13 +209,6 @@ public final class JFrmSell extends javax.swing.JFrame {
         jLabel3.setText("Category");
 
         jLabel4.setText("Product");
-
-        jButton2.setText("Clear Products");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jButton3.setText("Checkout");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -262,7 +257,6 @@ public final class JFrmSell extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
         );
@@ -271,10 +265,7 @@ public final class JFrmSell extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                    .addComponent(jButton1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -371,13 +362,8 @@ public final class JFrmSell extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButtonExitMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonExit;
     private javax.swing.JComboBox<String> jComboCategory;

@@ -10,6 +10,7 @@ package gamesstore;
  * @author s2it_ggomes
  */
 public class Seller extends Employee {
+    private int idSeller;
     private float comission;
 
     /**
@@ -24,6 +25,20 @@ public class Seller extends Employee {
      */
     public void setComission(float comission) {
         this.comission = comission;
+    }
+
+    /**
+     * @return the idSeller
+     */
+    public int getIdSeller() {
+        return idSeller;
+    }
+
+    /**
+     * @param idSeller the idSeller to set
+     */
+    public void setIdSeller(int idSeller) {
+        this.idSeller = idSeller;
     }
     
     
