@@ -7,6 +7,11 @@ package gamesstore;
 import bd.ClientDAO;
 import bd.DatabaseUtilit;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicListUI;
+import javax.swing.table.TableModel;
 /**
  *
  * @author gabri
@@ -26,8 +31,28 @@ public class JFrmClient extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrmClient.HIDE_ON_CLOSE);
         configTableModel();
         configTableColumns();
-    }
+        
+        ListSelectionModel model = jTableClient.getSelectionModel();
+        TableModel modelTable = (TableModel) jTableClient.getModel();
+        
+        model.addListSelectionListener(new ListSelectionListener() {
 
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(! model.isSelectionEmpty()) {
+                    int selectedRow = model.getMinSelectionIndex();
+                    jTextFieldName.setText((String) modelTable.getValueAt(selectedRow, 0));
+                    jTextFieldRG.setText((String) modelTable.getValueAt(selectedRow, 1));
+                    jTextFieldCPF.setText((String) modelTable.getValueAt(selectedRow, 2));
+                    jTextFieldName.setEnabled(false);
+                    jTextFieldRG.setEnabled(false);
+                    jTextFieldCPF.setEnabled(false);
+                }
+            }
+        });
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,18 +117,8 @@ public class JFrmClient extends javax.swing.JFrame {
                 jButtonEditMouseClicked(evt);
             }
         });
-        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditActionPerformed(evt);
-            }
-        });
 
         jButtonCancel.setText("Cancel");
-        jButtonCancel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonCancelMouseClicked(evt);
-            }
-        });
         jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelActionPerformed(evt);
@@ -111,11 +126,6 @@ public class JFrmClient extends javax.swing.JFrame {
         });
 
         jButtonDelete.setText("Delete");
-        jButtonDelete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonDeleteMouseClicked(evt);
-            }
-        });
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeleteActionPerformed(evt);
@@ -210,19 +220,18 @@ public class JFrmClient extends javax.swing.JFrame {
         
         Client cli = new Client();
         cli.setName(name);
-        cli.setIdClient(this.clientdao.searchIdClient(cli));
         cli.setCPF(cpf);
+        cli.setIdClient(this.clientdao.searchIdClient(cli.getCPF()));
         cli.setRG(rg);
         System.out.println(cli.getIdClient());
        
         
         if(cli.validateCPF() != 0 && cli.validateRG() != 0 && !name.isEmpty()) {
+            //JOptionPane.showMessageDialog(null, "ID client = "+ cli.getIdClient());
             if(cli.getIdClient() == 0) {
                 clientdao.insertClient(cli);
-                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
             } else {
                 clientdao.updateClient(cli);
-                JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso!");
             }   
             configTableModel();
         } else {
@@ -236,28 +245,26 @@ public class JFrmClient extends javax.swing.JFrame {
             if(cli.validateRG() == 0) {
                 JOptionPane.showMessageDialog(null, "RG deve conter 9 caracteres!");
             }
-        }     
+        }    
+        jTableClient.setEnabled(true);
+        jButtonDelete.setEnabled(true);
+        jTextFieldRG.setEnabled(true);
+        jTextFieldCPF.setEnabled(true);
+        cleanFields();
     }//GEN-LAST:event_jButtonSaveClientActionPerformed
 
     private void jButtonEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEditMouseClicked
-        // TODO add your handling code here:
+        jTextFieldName.setEnabled(true);
+        jTableClient.setEnabled(false);
+        jButtonDelete.setEnabled(false);
     }//GEN-LAST:event_jButtonEditMouseClicked
 
-    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonEditActionPerformed
-
-    private void jButtonCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCancelMouseClicked
-        cleanFields();
-    }//GEN-LAST:event_jButtonCancelMouseClicked
-
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
-        // TODO add your handling code here:
+        jTextFieldName.setEnabled(true);
+        jTextFieldRG.setEnabled(true);
+        jTextFieldCPF.setEnabled(true);
+        cleanFields();
     }//GEN-LAST:event_jButtonCancelActionPerformed
-
-    private void jButtonDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDeleteMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonDeleteMouseClicked
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
         String CPF = jTextFieldCPF.getText();

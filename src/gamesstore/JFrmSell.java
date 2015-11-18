@@ -54,10 +54,7 @@ public final class JFrmSell extends javax.swing.JFrame {
     public void saveSell() {
         TableModel model = (TableModel) jTableSell.getModel();
         String valor1 = (String) model.getValueAt(linhaJTable, 0);
-        if(valor1 == "") {
-            System.out.println(valor1);
-            JOptionPane.showMessageDialog(null,"Selecione uma categoria primeiro!");  
-        } else {
+        
         int lastIdSell = this.sellDAO.searchLastIdSell();
         System.out.println("ultimo id = " + lastIdSell);
         int newIdSell = lastIdSell + 1;
@@ -97,10 +94,13 @@ public final class JFrmSell extends javax.swing.JFrame {
             contador--;
             linhaJTable--;
         }
+        JOptionPane.showMessageDialog(null, "Venda efetuada com sucesso!");
         
         this.clearTable();
-        }
+        
     }
+    
+    
     
     public void configTableColumns() {
         this.tableModel = (DefaultTableModel) jTableSell.getModel();
@@ -111,12 +111,6 @@ public final class JFrmSell extends javax.swing.JFrame {
         this.tableModel = (DefaultTableModel) jTableSell.getModel();
         tableModel.insertRow(tableModel.getRowCount(), new Object[] {jComboGames.getSelectedItem()});
         this.linhaJTable++;
-    }
-    
-    public void clearTable() {
-        this.tableModel = (DefaultTableModel) jTableSell.getModel();   
-        this.tableModel.getDataVector().removeAllElements();
-        this.jTableSell.updateUI();
     }
 
     public void setComboGame() {
@@ -357,10 +351,6 @@ public final class JFrmSell extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboGamesActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.clearTable();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.saveSell();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -380,6 +370,10 @@ public final class JFrmSell extends javax.swing.JFrame {
     private void jButtonExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonExitMouseClicked
         this.setVisible(false);
     }//GEN-LAST:event_jButtonExitMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

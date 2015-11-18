@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package gamesstore;
-import bd.SellerDAO;
+
 import bd.DatabaseUtilit;
 import javax.swing.JOptionPane;
 /**
@@ -13,15 +13,15 @@ import javax.swing.JOptionPane;
  */
 public class JFrmSeller extends javax.swing.JFrame {
     
-    private SellerDAO sellerdao;
-    
-     
-    public JFrmSeller() {
-        initComponents();
-        this.setLocationRelativeTo(null);
-        this.sellerdao = new SellerDAO();
-        DatabaseUtilit.Conectar();
-    }
+//    private SellerDAO sellerdao;
+//    
+//     
+//    public JFrmSeller() {
+//        initComponents();
+//        this.setLocationRelativeTo(null);
+//        this.sellerdao = new SellerDAO();
+//        DatabaseUtilit.Conectar();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -139,30 +139,30 @@ public class JFrmSeller extends javax.swing.JFrame {
         String comission = jTextFieldComission.getText();
         
         Seller seller = new Seller();
-        seller.setName(name);
-        seller.setIdClient(this.sellerdao.searchIdSeller());
-        System.out.println(seller.getIdSeller());
-       
+//        seller.setName(name);
+//        seller.setIdClient(this.sellerdao.searchIdSeller());
+//        System.out.println(seller.getIdSeller());
+//       
         
-        if(cli.getIdClient() == 0) {
-            clientdao.insertClient(cli);
-            JOptionPane.showMessageDialog(null, "Vendedor cadastrado com sucesso!");
-        } else {
-            clientdao.updateClient(cli);
-            JOptionPane.showMessageDialog(null, "Vendedor atualizado com sucesso!");
-        }   
-        
-        if(name.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nome deve ser diferente de vazio!");
-        }
-
-        if(cli.validateCPF() == 0) {
-            JOptionPane.showMessageDialog(null, "CPF deve conter 11 caracteres!");
-        }
-        if(cli.validateRG() == 0) {
-            JOptionPane.showMessageDialog(null, "RG deve conter 9 caracteres!");
-        }
-        
+//        if(cli.getIdClient() == 0) {
+//            clientdao.insertClient(cli);
+//            JOptionPane.showMessageDialog(null, "Vendedor cadastrado com sucesso!");
+//        } else {
+//            clientdao.updateClient(cli);
+//            JOptionPane.showMessageDialog(null, "Vendedor atualizado com sucesso!");
+//        }   
+//        
+//        if(name.isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Nome deve ser diferente de vazio!");
+//        }
+//
+//        if(cli.validateCPF() == 0) {
+//            JOptionPane.showMessageDialog(null, "CPF deve conter 11 caracteres!");
+//        }
+//        if(cli.validateRG() == 0) {
+//            JOptionPane.showMessageDialog(null, "RG deve conter 9 caracteres!");
+//        }
+//        
         
         
     }//GEN-LAST:event_jButtonSaveClientActionPerformed

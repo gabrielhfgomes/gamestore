@@ -35,8 +35,6 @@ public class SellDAO {
             DatabaseUtilit.getPs().setInt(3, sell.getIdClient());
             DatabaseUtilit.getPs().setInt(4, sell.getIdChip());
             DatabaseUtilit.getPs().execute();
-            
-            JOptionPane.showMessageDialog(null, "Venda efetuada com sucesso!");
         } catch (SQLException ex) {
             System.out.println("Dados não inseridos, Erro: " + ex);
         }

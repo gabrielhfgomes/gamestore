@@ -9,6 +9,7 @@ import java.sql.*;
 import gamesstore.Client;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -41,6 +42,11 @@ public class ClientDAO {
         return sql;
     }
     
+    private String SQLSearchIdClientbyCpf() {
+        String sql = "select idClient from client where cpf = ?";
+        return sql;
+    }
+    
     public void insertClient(Client cli) {
         try {
             DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLInsertClient()));
@@ -50,8 +56,10 @@ public class ClientDAO {
             DatabaseUtilit.getPs().execute();
             
             System.out.println("Cliente foi salvo!");
+            
         } catch(Exception ex) {
             System.err.println("Cliente não foi salva \n Erro: " + ex);
+            JOptionPane.showMessageDialog(null, "Por favor insira um CPF/RG não registrado");
         }
     }
     
@@ -63,12 +71,26 @@ public class ClientDAO {
             if(rs != null && rs.next()){
                 return rs.getInt("idClient");
             }
-            
         } catch(Exception ex) {
             System.err.println("Erro, query busca de ID " + ex);
         }
         return 0;
     }
+    
+     public int searchIdClient(String cpf) {
+        try {
+            DatabaseUtilit.setPs(DatabaseUtilit.getCon().prepareStatement(SQLSearchIdClientbyCpf()));
+            DatabaseUtilit.getPs().setString(1, cpf);
+            ResultSet rs = DatabaseUtilit.getPs().executeQuery();
+            if(rs != null && rs.next()){
+                return rs.getInt("idClient");
+            }
+        } catch(Exception ex) {
+            System.err.println("Erro, query busca de ID " + ex);
+        }
+        return 0;
+    }
+
 
     public List<Client> listAllClient() {
         List<Client> listClient = new ArrayList<>();
@@ -105,6 +127,7 @@ public class ClientDAO {
             DatabaseUtilit.getPs().execute();
             
             System.out.println("Cliente foi atualizado!");
+            JOptionPane.showMessageDialog(null,"Cliente foi atualizado com sucesso!" );
         } catch(Exception ex) {
             System.err.println("Cliente não foi atualizado \n Erro: " + ex);
         }
