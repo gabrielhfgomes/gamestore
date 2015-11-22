@@ -22,26 +22,23 @@ public class carrega extends javax.swing.JFrame {
      * Creates new form Carregamento
      */
    private JProgressBar Barra_de_Carregamento = new JProgressBar();
-    private JButton Iniciar = new JButton("Inicializar");
+    private JButton Iniciar = new JButton("Start");
    
-    // Fonte a ser utilizada no JLabel
     private Font Fonte = new Font("Lucida Console", Font.PLAIN, 18);
     private JLabel Status = new JLabel();
    
     public carrega(){
-        super("Tela de carregamento...");
+        super("Loading...");
            
         // Layout do JFrame
             setLayout(new FlowLayout());
        
-        // Propriedades da janela
-        this.setSize(300,120);
-        // Localização do programa na tela
-        this.setLocation(100,100);
+        
+        this.setSize(250,100);
+        this.setLocation(600,400);
         this.setResizable(false);
         this.setVisible(true);
-     
-      // Quando true é exibido o percentual no carregamento
+    
       Barra_de_Carregamento.setStringPainted(true);    
       this.add(Barra_de_Carregamento);
      
@@ -61,13 +58,9 @@ public class carrega extends javax.swing.JFrame {
             progresso.y = 0;  
            
             Barra_de_Carregamento.setValue(0);  
-            // Barra de carregamento tem valor mínimo igual a zero
             Barra_de_Carregamento.setMinimum(0);  
-            // Barra de carregamento tem valor máximo igual a cem
             Barra_de_Carregamento.setMaximum(100);
          
-           
-          // Modifica o cursor para indicar carregamento
           setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));         
          
              for(int i=0 ; i <= 100 ; i++){
@@ -78,9 +71,7 @@ public class carrega extends javax.swing.JFrame {
                 Barra_de_Carregamento.paintImmediately(progresso); 
              }
          
-          // Devolve o cursor a forma inicial
           setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-          // Mensagem é exibida ao fim do primeiro carregamento
           Status.setText("Carregamento Concluido.");
             JFrmMenu p = new JFrmMenu();
             p.setVisible(true);

@@ -8,12 +8,17 @@ package gamesstore;
 import bd.DatabaseUtilit;
 import javax.swing.JOptionPane;
 import bd.SellerDAO;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableModel;
 /**
  *
  * @author gabri
  */
 public class JFrmSeller extends javax.swing.JFrame {
     private SellerDAO sellerdao;
+    private SellerModel sellermodel;
     
      
     public JFrmSeller() {
@@ -23,7 +28,46 @@ public class JFrmSeller extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrmClient.HIDE_ON_CLOSE);
         configTableModel();
         configTableColumns();
+        
+        
+        ListSelectionModel model = jTableSeller.getSelectionModel();
+        TableModel modelTable = (TableModel) jTableSeller.getModel();
+        
+        
+        model.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(! model.isSelectionEmpty()) {
+                    int selectedRow = model.getMinSelectionIndex();
+                    jTextFieldName.setText((String) modelTable.getValueAt(selectedRow, 0));
+                    jTextFieldComission.setText(String.valueOf(modelTable.getValueAt(selectedRow, 1)));
+                    jTextFieldSalary.setText(String.valueOf(modelTable.getValueAt(selectedRow, 2)));
+                    jTextFieldName.setEnabled(false);
+                    jTextFieldComission.setEnabled(false);
+                    jTextFieldSalary.setEnabled(false);
+                }
+            }
+        });
     }
+    
+    public void configTableColumns() {
+        jTableSeller.getColumnModel().getColumn(0).setPreferredWidth(50);
+    }
+    
+    public void cleanFields() {
+        jTextFieldName.setText("\n");
+        jTextFieldSalary.setText("\n");
+        jTextFieldComission.setText("\n");
+    }
+    
+    public void configTableModel() {
+        sellermodel = new SellerModel();
+        sellermodel.fillingRows();
+        jTableSeller.setModel(sellermodel);
+        jTableSeller.setRowSelectionAllowed(true);
+    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,7 +90,7 @@ public class JFrmSeller extends javax.swing.JFrame {
         jButtonDelete = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableClient = new javax.swing.JTable();
+        jTableSeller = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -146,7 +190,7 @@ public class JFrmSeller extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jScrollPane2.setViewportView(jTableClient);
+        jScrollPane2.setViewportView(jTableSeller);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,7 +217,7 @@ public class JFrmSeller extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        DatabaseUtilit.Desconectar();
+
     }//GEN-LAST:event_formWindowClosing
 
     private void jButtonSaveSellerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSaveSellerMouseClicked
@@ -182,60 +226,55 @@ public class JFrmSeller extends javax.swing.JFrame {
 
     private void jButtonSaveSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveSellerActionPerformed
         String name = jTextFieldName.getText();
-        String rg = jTextFieldRG.getText();
-        String cpf = jTextFieldCPF.getText();
+        String comission = jTextFieldComission.getText();
+        String salary = jTextFieldSalary.getText();
 
-        Client cli = new Client();
-        cli.setName(name);
-        cli.setCPF(cpf);
-        cli.setIdClient(this.clientdao.searchIdClient(cli.getCPF()));
-        cli.setRG(rg);
-        System.out.println(cli.getIdClient());
+        Seller seller = new Seller();
+        seller.setName(name);
+        seller.setComission(Float.valueOf(comission));
+        seller.setSalary(Float.valueOf(salary));
+        seller.setIdSeller(this.sellerdao.searchIdSeller(seller));
+        
 
-        if(cli.validateCPF() != 0 && cli.validateRG() != 0 && !name.isEmpty()) {
+        if(!name.isEmpty()) {
             //JOptionPane.showMessageDialog(null, "ID client = "+ cli.getIdClient());
-            if(cli.getIdClient() == 0) {
-                clientdao.insertClient(cli);
+            if(seller.getIdSeller() == 0) {
+                sellerdao.insertSeller(seller);
             } else {
-                clientdao.updateClient(cli);
+                sellerdao.updateSeller(seller);
             }
             configTableModel();
         } else {
             if(name.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nome deve ser diferente de vazio!");
             }
-
-            if(cli.validateCPF() == 0) {
-                JOptionPane.showMessageDialog(null, "CPF deve conter 11 caracteres!");
-            }
-            if(cli.validateRG() == 0) {
-                JOptionPane.showMessageDialog(null, "RG deve conter 9 caracteres!");
-            }
         }
-        jTableClient.setEnabled(true);
+        
+        jTableSeller.setEnabled(true);
         jButtonDelete.setEnabled(true);
-        jTextFieldRG.setEnabled(true);
-        jTextFieldCPF.setEnabled(true);
+        jTextFieldName.setEnabled(true);
         cleanFields();
     }//GEN-LAST:event_jButtonSaveSellerActionPerformed
 
     private void jButtonEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEditMouseClicked
-        jTextFieldName.setEnabled(true);
-        jTableClient.setEnabled(false);
-        jButtonDelete.setEnabled(false);
+        jTextFieldName.setEnabled(false);
+        jTextFieldComission.setEnabled(true);
+        jTextFieldSalary.setEnabled(true);
+        jTableSeller.setEnabled(true);
+        jButtonDelete.setEnabled(true);
     }//GEN-LAST:event_jButtonEditMouseClicked
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         jTextFieldName.setEnabled(true);
-        jTextFieldRG.setEnabled(true);
-        jTextFieldCPF.setEnabled(true);
+        jTextFieldComission.setEnabled(true);
+        jTextFieldSalary.setEnabled(true);
         cleanFields();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
-        String CPF = jTextFieldCPF.getText();
+        String name = jTextFieldName.getText();
 
-        clientdao.deleteClient(CPF);
+        sellerdao.deleteSeller(name);
         configTableModel();
         configTableColumns();
         cleanFields();
@@ -287,7 +326,7 @@ public class JFrmSeller extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanelClient;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTableClient;
+    private javax.swing.JTable jTableSeller;
     private javax.swing.JTextField jTextFieldComission;
     private javax.swing.JTextField jTextFieldName;
     private javax.swing.JTextField jTextFieldSalary;

@@ -23,9 +23,11 @@ public class GamesStore {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        new JFrmMenu().setVisible(true);
+        carrega car = new carrega();
+        car.setVisible(true);
         GamesStore m1 = new GamesStore();
         m1.leArquivo("Arquivo.txt");
+        
     }
     
      public void escreveArquivo(String nomeArquivo, boolean b1, int cont) throws IOException {
